@@ -1,10 +1,12 @@
 window.onload = ()=>{
     popularDrinks()
+    browseDrinks()
+    filterDrinks()
 
     var btn = document.getElementById("btn")
     btn.addEventListener("click", handleClick)
     getCocktailData()
- 
+  
     
 }
 
@@ -94,7 +96,7 @@ function popularDrinks(){
         localStorage.setItem('imgValue',JSON.stringify(imgValue))
         var value=e.target.alt;
         
-        console.log(value)
+        // console.log(value)
         fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='+value )
         .then(res=> res.json())
         .then(res=> localStorage.setItem('Ingredient',JSON.stringify(res)))
@@ -106,4 +108,25 @@ function popularDrinks(){
  function getIngredientsDetails(){
      location.href="ingredients.html"
  }
- 
+
+ function browseDrinks(){
+     var browse=document.getElementById('browse');
+     browse.addEventListener('click',function(e){
+       var letter=e.target.textContent;
+         fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f='+letter)
+         .then(res => res.json())
+         .catch(err=>console.log(err))
+         .then(res =>   localStorage.setItem('Browse',JSON.stringify(res)))
+         .catch(err1=>console.log(err1))
+         .then(res=> location.href="browse.html")
+        })
+ }
+ function filterDrinks(){
+    filterIngredients()
+}
+      function filterIngredients(){
+         fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
+         .then(res=>res.json)
+         .then(res=>console.log(res))
+     }
+
